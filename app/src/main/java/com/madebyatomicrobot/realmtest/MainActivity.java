@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         RealmResults<Unique> results = realm.where(Unique.class).findAll();
         handleResults(results);
 
+        // I've tried this with the listener as an anonymous inner class and also assigning it to a
+        // field to ensure there isn't an issue with it being GC'd.
         results.addChangeListener(new RealmChangeListener<RealmResults<Unique>>() {
             @Override
             public void onChange(RealmResults<Unique> element) {
