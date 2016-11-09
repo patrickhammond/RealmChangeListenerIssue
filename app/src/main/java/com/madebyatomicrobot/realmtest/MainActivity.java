@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private Runnable adder = new Runnable() {
         @Override
         public void run() {
-            addViaService();
+            addObject();
         }
     };
 
@@ -76,10 +76,21 @@ public class MainActivity extends AppCompatActivity {
         handler.removeCallbacks(adder);
     }
 
-    private void addViaService() {
+    private void addObject() {
+        // Different thread...doesn't take long to stop updating the change listener
         Intent intent = MainService.buildIntent(this);
         startService(intent);
 
+        // Same thread...takes longer to stop updating the change listener
+//        realm.executeTransaction(new Transaction() {
+//            @Override
+//            public void execute(Realm realm) {
+//                Unique unique = new Unique();
+//                realm.copyToRealm(unique);
+//            }
+//        });
+
+        // Add another after a delay
         handleStartAdding();
     }
 
